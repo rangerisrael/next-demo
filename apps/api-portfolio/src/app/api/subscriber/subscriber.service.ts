@@ -6,26 +6,20 @@ import { NewSubscriberDto } from './dto/create-subscriber.dto';
 
 @Injectable()
 export class UserSubscriberService {
-
   constructor(
     @InjectRepository(UserSubscriberEntity)
-      private readonly subscriberRepository:Repository<UserSubscriberEntity>
-  
-  
-  ){}
+    private readonly subscriberRepository: Repository<UserSubscriberEntity>
+  ) {}
 
   getData(): { message: string } {
     return { message: 'Nestjs has been connected' };
   }
 
-  getAllSubcriber(){
+  getAllSubcriber() {
     return this.subscriberRepository.find();
   }
 
-  createSubscriber(newSubDto:NewSubscriberDto){
+  createSubscriber(newSubDto: NewSubscriberDto) {
     return this.subscriberRepository.save(newSubDto);
   }
-
-  
-
 }

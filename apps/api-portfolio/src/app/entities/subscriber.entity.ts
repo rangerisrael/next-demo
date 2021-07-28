@@ -1,21 +1,16 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-import {Entity,PrimaryGeneratedColumn,Column } from 'typeorm';
-
-
-@Entity({name:'subscriber'})
-
-export class UserSubscriberEntity{
-
+@Entity({ name: 'subscriber' })
+export class UserSubscriberEntity {
   @PrimaryGeneratedColumn()
-  id:number;
+  id: number;
 
   @Column()
-  fullName:string;
+  fullName: string;
 
   @Column()
-  email:string;
+  email: string;
 
   @Column()
-  phoneNumber:string;
-
+  phoneNumber: string;
 }

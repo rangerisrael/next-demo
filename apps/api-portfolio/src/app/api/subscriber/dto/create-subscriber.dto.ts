@@ -1,20 +1,19 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDefined, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsString } from 'class-validator';
 
-  export class NewSubscriberDto{
+export class NewSubscriberDto {
+  @IsString()
+  @IsDefined()
+  @ApiProperty()
+  fullName: string;
 
-    @IsString()
-    @IsDefined()
-    @ApiProperty()
-      fullName:string;
-      
-    @IsString()
-    @IsDefined()
-    @ApiProperty()
-      email:string;
+  @IsString()
+  @IsDefined()
+  @ApiProperty()
+  email: string;
 
-      @IsString()
-    @IsDefined()
-    @ApiProperty()
-      phoneNumber:string;
-  }
+  @IsString()
+  @IsDefined()
+  @ApiProperty()
+  phoneNumber: string;
+}

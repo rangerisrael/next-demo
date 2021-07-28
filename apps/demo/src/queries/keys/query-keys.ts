@@ -1,3 +1,3 @@
-export enum QueryKeys{
-   'PORTFOLIO' = 'portfolio'
+export enum QueryKeys {
+  'PORTFOLIO' = 'portfolio',
 }
