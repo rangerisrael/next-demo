@@ -27,6 +27,9 @@
     ]
   },
   "projects": {
+    "api-portfolio": {
+      "tags": []
+    },
     "demo": {
       "tags": []
     },

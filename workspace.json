@@ -1,6 +1,85 @@
 {
   "version": 2,
   "projects": {
+    "api-portfolio": {
+      "root": "apps/api-portfolio",
+      "sourceRoot": "apps/api-portfolio/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api-portfolio",
+            "main": "apps/api-portfolio/src/main.ts",
+            "tsConfig": "apps/api-portfolio/tsconfig.app.json",
+            "assets": ["apps/api-portfolio/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-portfolio/src/environments/environment.ts",
+                  "with": "apps/api-portfolio/src/environments/environment.prod.ts"
+                }
+              ],
+              "externalDependencies": [
+                "@nestjs/microservices",
+                "@nestjs/microservices/microservices-module",
+                "@nestjs/websockets/socket-module",
+                "class-transformer",
+                "class-validator",
+                "cache-manager",
+                "@nestjs/common",
+                "@nestjs/config",
+                "@nestjs/core",
+                "@nestjs/platform-express",
+                "@nestjs/swagger",
+                "@nestjs/typeorm",
+                "pg",
+                "typeorm"
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-portfolio:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api-portfolio/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api-portfolio"],
+          "options": {
+            "jestConfig": "apps/api-portfolio/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "commands": [
+              "cp ../../../apps/api-portfolio/Dockerfile .",
+              "heroku container:login",
+              "heroku container:push web -a nestme-api",
+              "heroku container:release web -a nestme-api"
+            ],
+            "cwd": "dist/apps/api-portfolio"
+          }
+        }
+      }
+    },
     "demo": {
       "root": "apps/demo",
       "sourceRoot": "apps/demo",
