@@ -72,8 +72,8 @@
             "commands": [
               "cp ../../../apps/api-portfolio/Dockerfile .",
               "heroku container:login",
-              "heroku container:push web -a nestme-api",
-              "heroku container:release web -a nestme-api"
+              "heroku container:push web -a sleepy-dusk-18940",
+              "heroku container:release web -a sleepy-dusk-18940"
             ],
             "cwd": "dist/apps/api-portfolio"
           }
