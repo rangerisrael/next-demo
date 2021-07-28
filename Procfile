@@ -1,1 +1,1 @@
-web: nx build api-portfolio --prod
+web: yarn start
