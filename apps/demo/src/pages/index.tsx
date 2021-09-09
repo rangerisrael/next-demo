@@ -1,57 +1,84 @@
-import styled from 'styled-components';
-import React from 'react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { QueryClient, useQuery } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
-import { portfolioQuery } from '../queries/user.quries';
+import React, { useEffect, useState, memo } from 'react';
+import Header from '../component/layout/header';
+import Main from '../component/layout/main-content';
+import Footer from '../component/layout/footer';
+import Chart from '../component/chart/chart';
+import Navigator from '../component/navigator';
+import SpinnerStyle from '../styled/spinner';
+import HeaderStyle from '../styled/header';
+import MainStyle from '../styled/main';
+import ChartStyle from '../styled/chart';
+import ScrollStyle from '../styled/scroll';
+import IndicatorStyle from '../styled/indicator';
+import FooterStyle from '../styled/footer';
+import ScreenBreakPoints from '../styled/breakpoints';
 
-const StyledPage = styled.div`
-  .page {
-  }
-`;
+const Index = memo(function Index() {
+  const [spinner, setSpinner] = useState(false);
 
-export function Index() {
-  const { data: list, isLoading } = useQuery(portfolioQuery());
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(true);
+    }, 1000);
+    return () => {
+      clearTimeout();
+    };
+  }, [spinner]);
 
   return (
-    <StyledPage>
-      <div>
-        <table>
-          <br />
-          <tr>
-            <th>#</th>
-            <th>FullName</th>
-            <th>Email</th>
-            <th>PhoneNumber</th>
-          </tr>
-          {list.map((data, i) => (
+    <div className="wrapper">
+      {!spinner ? (
+        <div
+          style={{
+            color: '#38A2C0',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            background: '#E6F1F8',
+            fontWeight: 600,
+            fontSize: '2em',
+          }}
+        >
+          <SpinnerStyle>
+            <div className="spinner">
+              <div className="spinner-circle"></div>
+            </div>
+            <div className="spinner-text">
+              <h1 className="loading-text">Loading</h1>
+            </div>
+          </SpinnerStyle>
+        </div>
+      ) : (
+        <ScreenBreakPoints>
+          {/* <div className="ie-errors" style={{ display: 'none' }}>
+              Browser is not supported use Microsoft Edge instead
+            </div> */}
+          <HeaderStyle>
+            <Header />
+          </HeaderStyle>
+          <MainStyle>
             <>
-              <br />
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{data.fullName}</td>
-                <td>{data.email}</td>
-                <td>{data.phoneNumber}</td>
-              </tr>
+              <Main />
+              <ChartStyle>
+                <Chart />
+              </ChartStyle>
             </>
-          ))}
-        </table>
-      </div>
-    </StyledPage>
+          </MainStyle>
+
+          <IndicatorStyle>
+            <Navigator />
+          </IndicatorStyle>
+          <FooterStyle>
+            <ScrollStyle>
+              <Footer />
+            </ScrollStyle>
+          </FooterStyle>
+        </ScreenBreakPoints>
+      )}
+    </div>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(portfolioQuery());
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+});
 
 export default Index;
